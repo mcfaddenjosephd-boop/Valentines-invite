@@ -1,19 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Valentine</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Invitation</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background-color: #ffe6e6;
+        font-family: 'Arial', sans-serif;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    /* Floating hearts */
+    .floating-heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #ff1a75;
+        transform: rotate(-45deg);
+        border-radius: 50% 50% 0 0;
+        animation: float 5s linear infinite;
+    }
+    .floating-heart::before,
+    .floating-heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #ff1a75;
+        border-radius: 50%;
+    }
+    .floating-heart::before { top: -10px; left: 0; }
+    .floating-heart::after { top: 0; left: 10px; }
+
+    @keyframes float {
+        0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+        100% { transform: translateY(-800px) rotate(-45deg); opacity: 0; }
+    }
+
+    /* Center heart */
+    .heart {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background-color: #ff4d94;
+        transform: rotate(-45deg);
+        top: 50%;
+        left: 50%;
+        margin-left: -100px;
+        margin-top: -100px;
+        border-radius: 50% 50% 0 0;
+        animation: beat 1s infinite;
+        z-index: 1;
+    }
+    .heart::before,
+    .heart::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background-color: #ff4d94;
+        border-radius: 50%;
+    }
+    .heart::before { top: -100px; left: 0; }
+    .heart::after { top: 0; left: 100px; }
+
+    @keyframes beat {
+        0%, 100% { transform: scale(1) rotate(-45deg); }
+        50% { transform: scale(1.2) rotate(-45deg); }
+    }
+
+    button {
+        position: absolute;
+        padding: 15px 25px;
+        font-size: 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        z-index: 2;
+    }
+
+    #yesBtn {
+        left: 20%;
+        background-color: #ff1a75;
+        color: white;
+    }
+
+    #noBtn {
+        right: 20%;
+        background-color: #b30059;
+        color: white;
+    }
+
+    #gifContainer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        text-align: center;
+        z-index: 3;
+    }
+
+    #gifContainer img {
+        max-width: 90vw;
+        max-height: 60vh;
+        border-radius: 20px;
+    }
+
+    #message {
+        font-size: 28px;
+        color: #b30059;
+        margin-bottom: 20px;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Happy Valentine's Day 💖</h1>
-        <p>Hey [Her Name],</p>
-        <p>I'd love for you to join me for a special Valentine's celebration!</p>
-        <button onclick="revealMessage()">Click to see your surprise 💌</button>
-        <p id="surprise" style="display:none;">🌹 You're the sweetest, and I can't wait to celebrate with you! 🌹</p>
-    </div>
-    <script src="script.js"></script>
+
+<!-- Floating hearts -->
+<script>
+for(let i=0; i<20; i++){
+    const heart = document.createElement('div');
+    heart.classList.add('floating-heart');
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+    heart.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(heart);
+}
+</script>
+
+<div class="heart"></div>
+
+<button id="yesBtn">Yes 💖</button>
+<button id="noBtn">No 😅</button>
+
+<div id="gifContainer">
+    <div id="message">Yay! You said yes! 🌹</div>
+    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGt6YW9iZjBnOG5yNG11dnNvOGkwN2xwZW9vZnI1d3p2ZG5sdHVzZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ORjfgiG9ZtxcQQwZzv/giphy.gif" alt="Love GIF">
+</div>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const gifContainer = document.getElementById('gifContainer');
+
+// No button runs away
+noBtn.addEventListener('mousemove', () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+});
+
+// Yes button click shows GIF
+yesBtn.addEventListener('click', () => {
+    gifContainer.style.display = 'block';
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
+});
+</script>
+
 </body>
 </html>
+
